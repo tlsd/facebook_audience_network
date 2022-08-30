@@ -28,5 +28,10 @@ public class FANPlugin: NSObject, FlutterPlugin {
         let interstitialAdChannel: FlutterMethodChannel = FlutterMethodChannel.init(name: FANConstant.INTERSTITIAL_AD_CHANNEL, binaryMessenger: registrar.messenger())
         
         FacebookAudienceNetworkInterstitialAdPlugin.init(_channel: interstitialAdChannel)
+
+        let rewardedVideoAdChannel: FlutterMethodChannel = FlutterMethodChannel.init(name: FANConstant.REWARDED_VIDEO_AD_CHANNEL, binaryMessenger: registrar.messenger())
+
+        FacebookAudienceNetworkRewardedVideoAdPlugin.init(_channel: rewardedVideoAdChannel)
+
     }
 }
