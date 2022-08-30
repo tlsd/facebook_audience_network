@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.ads.*;
 import androidx.annotation.NonNull;
 import java.util.HashMap;
+import java.util.UUID;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -14,6 +15,7 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import android.content.SharedPreferences;
 
 /**
  * FacebookAudienceNetworkPlugin
@@ -58,6 +60,8 @@ public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallH
 
         if (call.method.equals(FacebookConstants.INIT_METHOD))
             result.success(init((HashMap) call.arguments));
+        else if (call.method.equals("registerTestDevice"))
+            result.success(registerTestDevice());
         else
             result.notImplemented();
     }
@@ -72,6 +76,19 @@ public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallH
         }
         return true;
     }
+
+    private boolean registerTestDevice() {
+        SharedPreferences var1 = _context.getSharedPreferences("FBAdPrefs", 0);
+        String i = UUID.randomUUID().toString();
+        if (!var1.getString("deviceIdHash", "").equals(i))
+        {
+            var1.edit().putString("deviceIdHash", i).apply();
+        }
+
+        AdSettings.addTestDevice(i);
+        return true;
+    }
+
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);

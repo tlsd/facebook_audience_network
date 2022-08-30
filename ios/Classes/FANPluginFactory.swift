@@ -22,11 +22,19 @@ class FANPluginFactory: NSObject {
                 }
                 print("FANPluginFactory > init")
                 result(true)
+            case "registerTestDevice":
+                self.addTestDevicesForFacebookAds()
+                result(true)
             default:
                 result(FlutterMethodNotImplemented)
             }
         }
         
         print("FacebookAudienceNetworkInterstitialAdPlugin > init > end")
+    }
+
+    private func addTestDevicesForFacebookAds(){
+        let key = FBAdSettings.testDeviceHash()
+        FBAdSettings.addTestDevice(key)
     }
 }

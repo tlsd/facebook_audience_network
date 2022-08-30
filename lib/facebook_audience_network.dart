@@ -45,6 +45,15 @@ class FacebookAudienceNetwork {
     }
   }
 
+  static Future<bool?> registerTestDevice() async {
+    try {
+      final result = await _channel.invokeMethod('registerTestDevice');
+      return result;
+    } on PlatformException {
+      return false;
+    }
+  }
+
   /// Loads an Interstitial Ad in background. Replace the default [placementId]
   /// with the one which you obtain by signing-up for Facebook Audience Network.
   ///
